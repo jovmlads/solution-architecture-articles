@@ -83,7 +83,7 @@ The decisions below address those, in that order.
 
 ## Final architecture
 
-![Architecture](diagram.excalidraw) — open `diagram.excalidraw` at [excalidraw.com](https://excalidraw.com) and export a PNG to embed inline.
+![Architecture](final design.png)
 
 Traffic enters through a load balancer and an API gateway that handles routing, auth, rate limiting, and TLS, then splits to two services. The write service leases a code from the Redis counter, encodes it, and writes the mapping to the database primary. The read service resolves codes through the Redis cache and falls back to a read replica on a miss, then returns the 302.
 
