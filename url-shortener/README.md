@@ -83,7 +83,7 @@ The decisions below address those, in that order.
 
 ## Final architecture
 
-![`Final Design`](https://github.com/jovmlads/solution-architecture-articles/blob/66452e9c61be9d6a9164a78390f5b230e6345911/url-shortener/final%20design.png)
+![`Final Design`](https://github.com/jovmlads/solution-architecture-articles/blob/e2888573af391358bcb7dd3ebde332fa34ec67d3/url-shortener/final%20design.png)
 
 Traffic enters through a load balancer and an API gateway that handles routing, auth, rate limiting, and TLS, then splits to two services. The write service leases a code from the Redis counter, encodes it, and writes the mapping to the database primary. The read service resolves codes through the Redis cache and falls back to a read replica on a miss, then returns the 302.
 
