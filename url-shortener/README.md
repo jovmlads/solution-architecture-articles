@@ -91,6 +91,17 @@ Storage is not a constraint here. At ~500 bytes per row, 1B rows is roughly 500G
 
 A high-level Terraform setup for this architecture lives in [`main.tf`](main.tf), mapping each component to a managed AWS service.
 
+### Component → AWS service
+
+| Component | AWS service |
+|---|---|
+| API gateway (routing, auth, rate limiting, TLS) | Amazon API Gateway (HTTP API), with **Amazon Cognito** as the JWT issuer for `POST /urls` |
+| Load balancer (internal, path-based routing) | Application Load Balancer (ALB), internal, reached via a VPC link |
+| Write / read services | Amazon ECS on **Fargate** — one image, `ROLE` env var selects behaviour; the read fleet scales independently |
+| Global counter + lookup cache | Amazon **ElastiCache for Redis** (two replication groups) |
+| URL store (primary + read replicas) | Amazon **RDS for PostgreSQL** (Multi-AZ primary + read replicas) |
+| Service config / DB credentials | AWS **Secrets Manager** (injected into the tasks, never plaintext) |
+
 ## Operational concerns
 
 - Counter failure: run Redis with replication and automatic failover (Sentinel or Cluster). A lost batch leaves gaps, never duplicates, and the `UNIQUE` constraint catches the rest.
