@@ -35,6 +35,24 @@ Topics covered:
 
 ---
 
+### 📦 File Storage Service
+
+Designing a Dropbox-style file storage service where the hard part is moving large files (up to 50GB) reliably.
+
+Topics covered:
+
+- keeping the application tier out of the data path
+- direct-to-blob uploads with presigned URLs
+- chunked, resumable uploads
+- content fingerprinting for dedup and resume
+- server-side chunk verification
+- CDN downloads with signed URLs
+- push/poll file sync
+
+[Read article →](https://github.com/jovmlads/solution-architecture-articles/tree/main/file-storage)
+
+---
+
 ## Approach
 
 The designs follow a consistent architecture process:
